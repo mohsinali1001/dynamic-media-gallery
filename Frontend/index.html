@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dynamic Media Gallery - Upload, organize, and explore high-resolution images and animated GIFs with instant MySQL database synchronization.">
+
+    <title>Media Gallery — Dynamic Asset Showcase</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- jQuery -->
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+
+    <!-- ==========================================
+         Top Navigation / Header
+    =========================================== -->
+    <header class="site-header">
+        <div class="container header-content">
+
+            <div class="brand">
+                <div class="brand-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                        <circle cx="9" cy="9" r="2"/>
+                        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1 class="brand-title">Media Gallery</h1>
+                    <p class="brand-subtitle">Upload and explore your images and GIFs</p>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <a href="#upload-section" class="btn btn-ghost">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    <span>Upload New</span>
+                </a>
+
+                <button id="loadMediaBtn" class="btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                        <path d="M3 3v5h5"/>
+                        <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+                        <path d="M16 21h5v-5"/>
+                    </svg>
+                    <span>Explore Gallery</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- ==========================================
+         Hero Section
+    =========================================== -->
+    <section class="hero-section">
+        <div class="container hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span>Full-Stack Media Hub</span>
+            </div>
+
+            <h2 class="hero-headline">Your media, <span class="gradient-text">beautifully organized.</span></h2>
+
+            <p class="hero-description">
+                A modern visual gallery for your images and animated GIFs. Upload assets with instant MySQL database synchronization and seamless grid browsing.
+            </p>
+
+            <div class="hero-tags">
+                <span class="hero-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    JPG, PNG, WEBP & GIF
+                </span>
+                <span class="hero-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    MySQL Storage
+                </span>
+                <span class="hero-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    Animated GIF Support
+                </span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         Main Content
+    =========================================== -->
+    <main class="container">
+
+        <!-- ==========================================
+             Upload Media Section
+        =========================================== -->
+        <section class="upload-section" id="upload-section">
+
+            <div class="section-heading">
+                <div class="heading-badge">New Asset</div>
+                <h2>Upload Media</h2>
+                <p>Add an image or animated GIF to your gallery collection.</p>
+            </div>
+
+            <form id="uploadForm" novalidate>
+
+                <!-- Title Input -->
+                <div class="form-group">
+                    <label for="title" class="form-label">
+                        <span>Title</span>
+                        <span class="required-indicator">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="Enter media title (e.g. Sunset Glow, Loop Animation)"
+                        autocomplete="off"
+                        required
+                    >
+                </div>
+
+                <!-- Description Textarea -->
+                <div class="form-group">
+                    <label for="description" class="form-label">
+                        <span>Description</span>
+                        <span class="optional-indicator">Optional</span>
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="Enter a short description or context for this asset..."
+                        rows="3"
+                    ></textarea>
+                </div>
+
+                <!-- File Upload Dropzone -->
+                <div class="form-group">
+                    <label for="media" class="form-label">
+                        <span>Image / GIF File</span>
+                        <span class="required-indicator">*</span>
+                    </label>
+
+                    <div class="file-dropzone">
+                        <div class="dropzone-visual">
+                            <div class="dropzone-icon" aria-hidden="true">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                            </div>
+                            <div class="dropzone-meta">
+                                <p class="dropzone-headline">Choose an image or animated GIF</p>
+                                <p class="dropzone-subline">Browse from your computer</p>
+                            </div>
+                        </div>
+
+                        <input
+                            type="file"
+                            id="media"
+                            name="media"
+                            accept="image/jpeg,image/png,image/webp,image/gif"
+                            class="styled-file-input"
+                            required
+                        >
+
+                        <div class="dropzone-footer">
+                            <div class="format-badges">
+                                <span class="format-badge">JPG</span>
+                                <span class="format-badge">PNG</span>
+                                <span class="format-badge">WEBP</span>
+                                <span class="format-badge gif-badge">GIF</span>
+                            </div>
+                            <span class="size-limit-badge">Max 10 MB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-actions">
+                    <button
+                        type="submit"
+                        id="uploadBtn"
+                        class="btn btn-primary"
+                    >
+                        Upload Media
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Upload Feedback Message -->
+            <div
+                id="uploadMessage"
+                class="message"
+                style="display: none;"
+            ></div>
+
+        </section>
+
+
+        <!-- ==========================================
+             Gallery Section
+        =========================================== -->
+        <section class="gallery-section" id="gallery-section">
+
+            <div class="section-heading gallery-heading">
+                <div>
+                    <div class="heading-badge">Collection</div>
+                    <h2>Gallery</h2>
+                    <p>Media stored in your MySQL database.</p>
+                </div>
+
+                <div class="gallery-meta-toolbar">
+                    <span id="mediaCount" class="media-count">
+                        0 items
+                    </span>
+                </div>
+            </div>
+
+
+            <!-- Loading State -->
+            <div
+                id="loadingState"
+                class="state-message"
+                style="display: none;"
+            >
+                <div class="loader"></div>
+                <p class="state-title">Loading media...</p>
+                <span class="state-desc">Fetching media collection from database</span>
+            </div>
+
+
+            <!-- Error State -->
+            <div
+                id="errorState"
+                class="state-message error-state"
+                style="display: none;"
+            >
+                <div class="state-icon error-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="12"/>
+                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                </div>
+                <p id="errorMessage" class="state-title">
+                    Unable to load media.
+                </p>
+                <span class="state-desc">
+                    Please check your backend connection and database status.
+                </span>
+            </div>
+
+
+            <!-- Empty State -->
+            <div
+                id="emptyState"
+                class="state-message empty-state"
+                style="display: none;"
+            >
+                <div class="state-icon empty-icon" aria-hidden="true">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                        <circle cx="9" cy="9" r="2"/>
+                        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                    </svg>
+                </div>
+                <p class="state-title">No media found.</p>
+                <span class="state-desc">Upload your first image or GIF above to begin your collection.</span>
+            </div>
+
+
+            <!-- Gallery Grid -->
+            <div id="gallery" class="gallery-grid"></div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==========================================
+         Footer
+    =========================================== -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <p>© Dynamic Media Gallery • Full Stack Web Development</p>
+            <span class="footer-badge">MySQL & Express API</span>
+        </div>
+    </footer>
+
+
+    <!-- ==========================================
+         JavaScript
+    =========================================== -->
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
